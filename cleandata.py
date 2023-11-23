@@ -6,6 +6,7 @@ data = pd.read_csv(file_path)
 
 # Round down all numbers in the "chlorides" column to 3 decimals
 data["chlorides"] = data["chlorides"].round(3)
+data["alcohol"] = data["alcohol"].round(3)
 
 # Replace missing values with the mean of each column
 for column in data.columns:
