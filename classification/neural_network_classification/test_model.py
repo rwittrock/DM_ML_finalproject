@@ -35,3 +35,12 @@ y_pred_categorical = pd.Categorical.from_codes(
 # Evaluate on the test set
 accuracy = accuracy_score(y_test_categorical, y_pred_categorical)
 print(f"Accuracy on the test set: {accuracy:.2%}")
+
+# Print accuracy for each value of the target attribute
+unique_values = test_data["quality"].unique()
+for value in unique_values:
+    indices = test_data["quality"] == value
+    accuracy_value = accuracy_score(
+        test_data.loc[indices, "quality"], y_pred_categorical[indices]
+    )
+    print(f"Accuracy for '{value}': {accuracy_value:.2%}")
