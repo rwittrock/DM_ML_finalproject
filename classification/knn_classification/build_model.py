@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 import joblib
 
@@ -18,6 +18,11 @@ X_train, X_valid, y_train, y_valid = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
+# Normalize features using StandardScaler
+scaler = StandardScaler()
+X_train_normalized = scaler.fit_transform(X_train)
+X_valid_normalized = scaler.transform(X_valid)
+
 # Determine the value of k as the square root of the number of training points (rounded to the nearest odd integer)
 k_value = int(np.sqrt(len(X_train)))
 k_value = k_value + 1 if k_value % 2 == 0 else k_value  # Ensure k is odd
@@ -25,15 +30,11 @@ k_value = k_value + 1 if k_value % 2 == 0 else k_value  # Ensure k is odd
 # Create the k-NN model
 knn_model = KNeighborsClassifier(n_neighbors=k_value)
 
-# Train the model
-knn_model.fit(X_train, y_train)
+# Train the model on normalized features
+knn_model.fit(X_train_normalized, y_train)
 
-# Make predictions on the validation set
-y_pred = knn_model.predict(X_valid)
-
-# Calculate accuracy on the validation set (replace with an appropriate metric for classification)
-accuracy = accuracy_score(y_valid, y_pred)
-print(f"Accuracy on the validation set: {accuracy:.2%}")
+# Make predictions on the validation set with normalized features
+y_pred = knn_model.predict(X_valid_normalized)
 
 # Save the trained model to a file
 model_file_path = "classification/knn_classification/knn_model.pkl"

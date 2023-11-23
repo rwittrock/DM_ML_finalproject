@@ -4,7 +4,10 @@ import pandas as pd
 file_path = "./datasets/raw_data.csv"
 data = pd.read_csv(file_path)
 
-# Round down all numbers in the "chlorides" column to 3 decimals
+# Drop the "Id" column
+data = data.drop(columns=["Id"])
+
+# Round down all numbers in the "chlorides" and "alcohol" columns to 3 decimals
 data["chlorides"] = data["chlorides"].round(3)
 data["alcohol"] = data["alcohol"].round(3)
 

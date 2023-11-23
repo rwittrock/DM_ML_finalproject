@@ -4,6 +4,18 @@ import numpy as np
 # Read the CSV file
 file_path = "./datasets/cleaned_raw_data.csv"
 data = pd.read_csv(file_path)
+# remove attributes from data
+data = data.drop(
+    columns=[
+        "residual sugar",
+        "pH",
+        "fixed acidity",
+        "chlorides",
+        "free sulfur dioxide",
+        "density",
+        "sulphates",
+    ]
+)
 
 # Randomly shuffle the data
 data = data.sample(frac=1, random_state=42).reset_index(drop=True)
