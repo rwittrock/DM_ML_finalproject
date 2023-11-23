@@ -8,7 +8,11 @@ data = pd.read_csv(file_path)
 data["chlorides"] = data["chlorides"].round(3)
 
 # Replace missing values with the mean of each column
-data = data.fillna(data.mean())
+for column in data.columns:
+    if data[column].isnull().any():
+        mean_value = data[column].mean()
+        data[column].fillna(mean_value, inplace=True)
+        print(f"Replaced missing values in '{column}' with the mean ({mean_value:.3f})")
 
 # Save the cleaned data to a new CSV file
 cleaned_file_path = "./datasets/cleaned_raw_data.csv"
