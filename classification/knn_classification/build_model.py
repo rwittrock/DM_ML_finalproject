@@ -1,12 +1,12 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 import joblib
 
 # Read the training data
-file_path = "classification/training_data.csv"
+file_path = "classification/knn_classification/training_data.csv"
 data = pd.read_csv(file_path)
 
 # Assuming 'quality' is the target variable and other columns are features
@@ -23,21 +23,28 @@ scaler = StandardScaler()
 X_train_normalized = scaler.fit_transform(X_train)
 X_valid_normalized = scaler.transform(X_valid)
 
-# Determine the value of k as the square root of the number of training points (rounded to the nearest odd integer)
-k_value = int(np.sqrt(len(X_train)))
-k_value = k_value + 1 if k_value % 2 == 0 else k_value  # Ensure k is odd
 
-# Create the k-NN model
-knn_model = KNeighborsClassifier(n_neighbors=k_value)
+# create list of odd numbers from 1 to 50
+neighbors = list(range(1, 50, 2))
 
-# Train the model on normalized features
-knn_model.fit(X_train_normalized, y_train)
+# Hyperparameter tuning for k-NN
+parameters = {"n_neighbors": neighbors}
+knn_model = KNeighborsClassifier()
+grid_search = GridSearchCV(knn_model, parameters, cv=5)
+grid_search.fit(X_train_normalized, y_train)
+
+# Print the best hyperparameters
+print("Best n_neighbors:", grid_search.best_params_)
+
+# Train the model with the best hyperparameters
+best_knn_model = grid_search.best_estimator_
+best_knn_model.fit(X_train_normalized, y_train)
 
 # Make predictions on the validation set with normalized features
-y_pred = knn_model.predict(X_valid_normalized)
+y_pred = best_knn_model.predict(X_valid_normalized)
 
 # Save the trained model to a file
 model_file_path = "classification/knn_classification/knn_model.pkl"
-joblib.dump(knn_model, model_file_path)
+joblib.dump(best_knn_model, model_file_path)
 
-print("k-NN model created and saved to", model_file_path)
+print("Tuned k-NN model created and saved to", model_file_path)

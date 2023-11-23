@@ -18,6 +18,15 @@ info_gain_df = pd.DataFrame({"Feature": X.columns, "Information Gain": info_gain
 # Sort the DataFrame by information gain in descending order
 info_gain_df = info_gain_df.sort_values(by="Information Gain", ascending=False)
 
-# Print information gain for each feature
-for index, row in info_gain_df.iterrows():
-    print(f"Information Gain for '{row['Feature']}': {row['Information Gain']:.4f}")
+# Rearrange the dataset columns based on sorted feature order
+sorted_columns = info_gain_df["Feature"].tolist()
+data_sorted = data[["quality"] + sorted_columns]
+
+# Save the rearranged dataset to a new CSV file
+rearranged_file_path = "./datasets/cleaned_raw_data.csv"
+data_sorted.to_csv(rearranged_file_path, index=False)
+
+print(
+    "Dataset rearranged based on feature entropy (descending) and saved to",
+    rearranged_file_path,
+)

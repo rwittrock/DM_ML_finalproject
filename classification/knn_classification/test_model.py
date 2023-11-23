@@ -8,7 +8,7 @@ model_file_path = "classification/knn_classification/knn_model.pkl"
 knn_model = joblib.load(model_file_path)
 
 # Read the test data
-test_file_path = "classification/test_data.csv"
+test_file_path = "classification/knn_classification/test_data.csv"
 test_data = pd.read_csv(test_file_path)
 
 # Assuming 'quality' is the target variable and other columns are features

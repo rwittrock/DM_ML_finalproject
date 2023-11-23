@@ -12,8 +12,8 @@ data = data.drop(
         "fixed acidity",
         "chlorides",
         "free sulfur dioxide",
-        "density",
-        "sulphates",
+        # "density",
+        # "sulphates",
     ]
 )
 
@@ -28,8 +28,8 @@ training_data = data.iloc[:split_index, :]
 test_data = data.iloc[split_index:, :]
 
 # Save the training and test data to CSV files
-training_file_path = "./classification/training_data.csv"
-test_file_path = "./classification/test_data.csv"
+training_file_path = "./classification/knn_classification/training_data.csv"
+test_file_path = "./classification/knn_classification/test_data.csv"
 
 training_data.to_csv(training_file_path, index=False)
 test_data.to_csv(test_file_path, index=False)
