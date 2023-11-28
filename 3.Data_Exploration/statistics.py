@@ -1,9 +1,9 @@
-#%%
+# %%
 
 import pandas as pd
 
 # Read the CSV file into a DataFrame
-file_path = "../datasets/cleaned_raw_data.csv"  # Replace with the actual file path
+file_path = "datasets/cleaned_raw_data.csv"  # Replace with the actual file path
 df = pd.read_csv(file_path)
 
 # Display the first few rows of the DataFrame

@@ -28,8 +28,8 @@ X_valid_normalized = scaler.transform(X_valid)
 
 # Build a neural network model for classification
 model = Sequential()
-model.add(Dense(128, input_dim=X_train_normalized.shape[1], activation="relu"))
-model.add(Dense(64, activation="relu"))
+# model.add(Dense(128, input_dim=X_train_normalized.shape[1], activation="relu"))
+model.add(Dense(64, input_dim=X_train_normalized.shape[1], activation="relu"))
 model.add(Dense(32, activation="relu"))
 model.add(Dense(16, activation="relu"))
 model.add(
@@ -47,7 +47,7 @@ y_valid_encoded = pd.get_dummies(y_valid)
 model.fit(
     X_train_normalized,
     y_train_encoded,
-    epochs=200,
+    epochs=50,
     batch_size=32,
     validation_data=(X_valid_normalized, y_valid_encoded),
 )
