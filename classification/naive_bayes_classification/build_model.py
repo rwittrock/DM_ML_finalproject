@@ -4,6 +4,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 import joblib as joblib
+import time
 
 # Read the training data
 file_path = "classification/naive_bayes_classification/training_data.csv"
@@ -22,12 +23,15 @@ X_train, X_valid, y_train, y_valid = train_test_split(
 scaler = StandardScaler()
 X_train_normalized = scaler.fit_transform(X_train)
 X_valid_normalized = scaler.transform(X_valid)
+start_time = time.time()
 
 # Create the Naive Bayes model
 naive_bayes_model = GaussianNB()
 
 # Train the model on normalized features
 naive_bayes_model.fit(X_train_normalized, y_train)
+end_time = time.time()
+print("Time taken to train:", end_time - start_time)
 
 # Make predictions on the validation set with normalized features
 y_pred = naive_bayes_model.predict(X_valid_normalized)

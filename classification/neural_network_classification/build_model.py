@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense
+import time
 
 # Read the training data
 file_path = "classification/neural_network_classification/training_data.csv"
@@ -43,6 +44,7 @@ model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accur
 y_train_encoded = pd.get_dummies(y_train)
 y_valid_encoded = pd.get_dummies(y_valid)
 
+start_time = time.time()
 # Train the model
 model.fit(
     X_train_normalized,
@@ -51,6 +53,8 @@ model.fit(
     batch_size=32,
     validation_data=(X_valid_normalized, y_valid_encoded),
 )
+end_time = time.time()
+print("Time taken to train:", end_time - start_time)
 
 # Evaluate the model on the validation set
 accuracy = model.evaluate(X_valid_normalized, y_valid_encoded, verbose=0)[1]

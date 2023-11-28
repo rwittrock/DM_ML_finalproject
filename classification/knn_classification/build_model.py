@@ -4,6 +4,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 import joblib
+import time
 
 # Read the training data
 file_path = "classification/knn_classification/training_data.csv"
@@ -24,11 +25,8 @@ X_train_normalized = scaler.fit_transform(X_train)
 X_valid_normalized = scaler.transform(X_valid)
 
 
-# create list of odd numbers from 1 to 50
-neighbors = list(range(1, 50, 2))
-
 # Hyperparameter tuning for k-NN
-parameters = {"n_neighbors": neighbors}
+parameters = {"n_neighbors": [49]}
 knn_model = KNeighborsClassifier()
 grid_search = GridSearchCV(knn_model, parameters, cv=5)
 grid_search.fit(X_train_normalized, y_train)
@@ -36,9 +34,12 @@ grid_search.fit(X_train_normalized, y_train)
 # Print the best hyperparameters
 print("Best n_neighbors:", grid_search.best_params_)
 
+start_time = time.time()
 # Train the model with the best hyperparameters
 best_knn_model = grid_search.best_estimator_
 best_knn_model.fit(X_train_normalized, y_train)
+end_time = time.time()
+print("Time taken to train:", end_time - start_time)
 
 # Make predictions on the validation set with normalized features
 y_pred = best_knn_model.predict(X_valid_normalized)

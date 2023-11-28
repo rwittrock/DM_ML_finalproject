@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 import joblib
+import time
 
 # Load the trained k-NN model
 model_file_path = "classification/knn_classification/knn_model.pkl"
@@ -19,7 +20,10 @@ scaler = StandardScaler()
 X_test_normalized = scaler.fit_transform(X_test)
 
 # Make predictions on the test set with normalized features
+start_time = time.time()
 y_test_pred = knn_model.predict(X_test_normalized)
+end_time = time.time()
+print("Time taken to predict:", end_time - start_time)
 
 # Evaluate on the test set
 accuracy_test = accuracy_score(test_data["quality"], y_test_pred)

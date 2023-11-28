@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 import joblib
+import time
 
 # Load the trained Naive Bayes model
 model_file_path = "classification/naive_bayes_classification/naive_bayes_model.pkl"
@@ -18,9 +19,11 @@ X_test = test_data.drop(columns=["quality"])
 scaler = StandardScaler()
 X_test_normalized = scaler.fit_transform(X_test)
 
+start_time = time.time()
 # Make predictions on the test set with normalized features
 y_test_pred = naive_bayes_model.predict(X_test_normalized)
-
+end_time = time.time()
+print("Time taken to predict:", end_time - start_time)
 # Evaluate on the test set
 accuracy_test = accuracy_score(test_data["quality"], y_test_pred)
 print(f"Overall Accuracy on the test set: {accuracy_test:.2%}")
